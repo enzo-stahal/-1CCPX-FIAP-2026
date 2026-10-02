@@ -1,0 +1,65 @@
+import os
+from PIL import Image
+
+# Abrir imagem
+pasta_script = os.path.dirname(os.path.abspath(__file__))
+caminho_imagem = os.path.join(pasta_script, "imagem.png")
+
+imagem = Image.open(caminho_imagem)
+
+# Converter para preto e branco
+imagem = imagem.convert("L")
+
+# Redimensionar para 8 x 8
+imagem = imagem.resize((8, 8))
+
+print("\nMATRIZ 8 x 8\n")
+
+# Percorrer as linhas
+for y in range(8):
+
+    binario = ""
+
+    # Criar a sequência binária da linha
+    for x in range(8):
+
+        pixel = imagem.getpixel((x, y))
+
+        if pixel >= 128:
+            binario += "1"
+        else:
+            binario += "0"
+
+    # Mostrar a matriz usando blocos
+    for bit in binario:
+
+        if bit == "1":
+            print("██", end="")
+        else:
+            print("  ", end="")
+
+    print()
+
+
+print("\nBINÁRIO          HEXADECIMAL")
+print("--------------------------------")
+
+# Mostrar binário e hexadecimal
+for y in range(8):
+
+    binario = ""
+
+    for x in range(8):
+
+        pixel = imagem.getpixel((x, y))
+
+        if pixel >= 128:
+            binario += "1"
+        else:
+            binario += "0"
+
+    valor = int(binario, 2)
+
+    hexadecimal = format(valor, "02X")
+
+    print(f"{binario}          0x{hexadecimal}")
